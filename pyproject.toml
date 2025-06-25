@@ -1,0 +1,18 @@
+[project]
+name = "crew"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "crewai[tools]>=0.130.0",
+    "crewai-tools>=0.47.1",
+    "dotenv>=0.9.9",
+    "streamlit>=1.46.0",
+    "praisonaiagents[llm]>=0.0.107",
+    "google-genai>=1.21.1",
+    "mcp>=1.9.4",
+    "agno>=1.6.4",
+    "chromedriver-autoinstaller>=0.6.4",
+    "selenium>=4.33.0",
+]

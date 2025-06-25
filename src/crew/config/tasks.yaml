@@ -1,0 +1,171 @@
+city_selection_task:
+  description: >
+    Analyze the traveler's preferences including budget, interests, and travel dates 
+    to recommend the best city. Use search tool ONLY ONCE to get current information 
+    about weather and prices. Base your recommendation on the search results and your 
+    knowledge.
+    
+    Traveler details: 
+            Traveling from: {origin}
+            City Options: {cities}
+            Trip Date: {date_range}
+            Traveler Interests: {interests}
+    
+    IMPORTANT: Use the search tool maximum 1 time. Provide a comprehensive analysis 
+    based on the single search and your existing knowledge.
+  
+  expected_output: >
+    A detailed city recommendation including:
+    - Recommended city with clear reasoning
+    - Weather considerations for the travel dates
+    - Budget analysis and cost estimates
+    - Why this city matches the traveler's interests
+    - Alternative cities if the first choice doesn't work
+
+local_expert_task:
+  description: >
+    Provide expert local insights about the selected city. Use search tool ONLY ONCE 
+    to get current local information. Focus on hidden gems, local customs, and 
+    insider tips that tourists typically miss.
+    
+    Selected city: {cities}
+    
+    IMPORTANT: Use search tool maximum 1 time. Combine search results with your 
+    knowledge to provide comprehensive local insights.
+  
+  expected_output: >
+    Comprehensive local insights including:
+    - Hidden gems and off-the-beaten-path locations
+    - Local customs and cultural etiquette
+    - Best neighborhoods to explore
+    - Local transportation tips
+    - Insider recommendations from a local perspective
+
+travel_concierge_task:
+  description: >
+    Create a detailed travel itinerary for the selected city. Use search tool ONCE 
+    for current information and calculator tool ONCE for budget calculations. 
+    Focus on creating a practical, day-by-day itinerary.
+    
+            Trip Date: {date_range}
+            Traveling from: {origin}
+            Traveler Interests: {interests}
+    
+    IMPORTANT: Use tools maximum 2 times total (1 search + 1 calculation).
+    for calcuation tool input of {\"expression\": \"8000 + (6 * 2500) + (7 * 1200) + (7 * 400) + (7 * 750)\"}' this type is needed
+    Create a complete itinerary based on previous agents' recommendations.
+    do not give any recommendations,saftey advices just create the itinerary.
+
+  expected_output: >
+    A complete travel itinerary including:
+    - Day-by-day schedule with activities
+    - Budget breakdown and cost estimates
+    - Transportation recommendations
+    - Packing suggestions based on weather and activities
+
+accommodation_task:
+  description: >
+    Find the best accommodation options within the traveler's budget. 
+    
+    PRIMARY APPROACH: Use airbnb_search tool with user query as input like this: 
+    'find the best hotels in {cities} under {accommodation_budget} per night'.
+    
+    FALLBACK APPROACH: If airbnb_search tool fails or returns insufficient results, 
+    then use web_search tool to find hotel details from Airbnb.com, MakeMyTrip, 
+    Booking.com, or OYO. Search for queries like:
+    - "best hotels {cities} under {accommodation_budget} booking.com"
+    - "airbnb {cities} budget accommodation under {accommodation_budget}"
+    - "makemytrip hotels {cities} {accommodation_budget} per night"
+    
+    City: {cities}
+    Budget: {accommodation_budget}
+    
+    IMPORTANT: 
+    - Try airbnb_search tool first (maximum 1 time)
+    - If that fails, use web_search tool (maximum 1 time) 
+    - Extract and provide comprehensive recommendations with specific details
+    - Include exact hotel names, prices, and booking links from search results
+  
+  expected_output: >
+    Detailed accommodation recommendations including:
+    - Top 3 hotel/Airbnb options with specific names, exact prices, and direct booking links
+    - Detailed pros and cons for each property
+    - Full address and location benefits with nearby attractions
+    - Specific amenities list for each property (WiFi, AC, kitchen, parking, etc.)
+    - Contact information and booking instructions
+    - Availability status and booking tips
+    - Alternative backup options with names and prices if first choices are unavailable
+    
+    Each recommendation MUST include:
+    - Property name
+    - Exact price per night (in local currency)
+    - Direct booking URL/link (Airbnb, Booking.com, MakeMyTrip, etc.)
+    - Full address with area/locality
+    - Phone number (if available)
+    - Check-in/check-out times
+    - Cancellation policy
+    - Guest rating/reviews summary
+    - Key amenities (WiFi, breakfast, parking, etc.)
+    
+    FORMAT: Present as organized sections with clear headings and bullet points for easy reading.
+
+food_expert_task:
+  description: >
+    Recommend the best dining experiences based on traveler preferences. Use search 
+    tool ONLY ONCE to get current restaurant information. Focus on a mix of 
+    must-try local cuisine and traveler-friendly options.
+    
+    City: {cities}
+    Food preferences: {dietary_preferences}
+    Budget: {food_budget}
+    
+    IMPORTANT: Use search tool maximum 1 time. Provide diverse dining recommendations.
+  
+  expected_output: >
+    Culinary recommendations including:
+    - Must-try local dishes and where to find them
+    - Restaurant recommendations across different price ranges
+    - Street food and local market suggestions
+    - Dietary restriction accommodations
+    - Food safety tips and local dining etiquette
+
+interest_specialist_task:
+  description: >
+    Suggest activities and attractions based on traveler's specific interests. 
+    Use search tool ONLY ONCE to get current information about attractions and 
+    events. Focus on personalized recommendations.
+    
+    City: {cities}
+    Interests: {interests}
+    Duration: {date_range}
+    
+    IMPORTANT: Use search tool maximum 1 time. Curate experiences based on 
+    traveler's specific interests.
+  
+  expected_output: >
+    Personalized activity recommendations including:
+    - Top attractions matching traveler interests
+    - Unique experiences and activities
+    - Seasonal events and festivals during travel dates
+    - Booking information and advance planning needed
+    - Time allocation suggestions for each activity
+
+final_itinerary_task:
+  description: >
+    Compile all previous agents' recommendations into a complete travel itinerary. 
+    Ensure all details are coherent and practical for the traveler.
+    
+    Selected city: {cities}
+    Travel duration: {date_range}
+    Budget: {food_budget + accommodation_budget}
+    
+    IMPORTANT: Use information from all previous agents to create a cohesive 
+    and detailed itinerary.
+  expected_output: >
+    Final travel itinerary including:
+    - Comprehensive day-by-day schedule
+    - All accommodation, dining, and activity recommendations with prices and Booking information
+    - Budget breakdown and cost estimates
+    - Packing list based on weather and activities
+    - Emergency contacts and important information
+    - use # instead of * to indicate bold text like markdown
