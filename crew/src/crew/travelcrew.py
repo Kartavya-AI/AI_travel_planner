@@ -1,15 +1,10 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+sys.modules["sqlite3.dbapi2"] = sys.modules["pysqlite3.dbapi2"]
 import streamlit as st
 import os
 from src.crew.travelcrew import TravelCrew
-
-# Import pysqlite3 workaround
-try:
-    __import__('pysqlite3')
-    import sys
-    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-    sys.modules["sqlite3.dbapi2"] = sys.modules["pysqlite3.dbapi2"]
-except ImportError:
-    pass  # pysqlite3 not available, use system sqlite3
 
 def format_itinerary(text: str) -> str:
     lines = text.split("\n")
