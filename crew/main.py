@@ -129,7 +129,7 @@ async def generate_travel_plan(request: TravelPlanRequest):
         
         # Extract and format the content
         content = extract_crew_output(result)
-        formatted_content = format_itinerary(content)
+        formatted_content = content
         
         logger.info("Travel plan generated successfully")
         
@@ -158,4 +158,5 @@ async def get_sample_request():
         accommodation_budget="1000 INR/night",
         dietary_preferences="Both vegetarian and non-vegetarian options",
         food_budget="500 INR/day"
+
     )
